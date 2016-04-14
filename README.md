@@ -1,4 +1,4 @@
-# node-express-audit-logs-middleware
+# node-audit-logs-middleware
 Middleware to log all requests that pass through and aspects of the response.
 
 
@@ -6,7 +6,7 @@ Middleware to log all requests that pass through and aspects of the response.
 - Your app must use express as the framework.
 
 ## To use
-var auditLogMiddleware = require('node-express-audit-logs-middleware);
+var auditLogMiddleware = require('node-audit-logs-middleware);
 // init express etc
 // add this middleware at the appropriate point (after auth but before the middleware that handles the important routes):
 app.use(auditLogMiddleware(log4js.getLogger('audit-logs'));
