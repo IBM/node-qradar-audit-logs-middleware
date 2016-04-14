@@ -1,0 +1,15 @@
+{
+  "name": "node-express-audit-logs-middleware",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "IBM",
+  "private": true,
+  "dependencies": {
+    "log4js": "^0.6.33"
+  }
+}
