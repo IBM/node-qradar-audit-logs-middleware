@@ -1,5 +1,5 @@
 {
-  "name": "node-express-audit-logs-middleware",
+  "name": "node-audit-logs-middleware",
   "version": "0.1.0",
   "description": "",
   "main": "index.js",
