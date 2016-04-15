@@ -11,7 +11,8 @@
 var log4js = require('log4js');
 
 var logger = log4js.getLogger('audit-lib'),
-    logBasePath = 'lib.middleware.audit-logs';
+    logBasePath = 'index';
+    logger.setLevel('INFO');
 
 module.exports = auditRequest;
 
