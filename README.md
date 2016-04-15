@@ -1,13 +1,16 @@
 # node-audit-logs-middleware
 Middleware to log all requests that pass through and aspects of the response.
 
+## To upgrade 
+- `npm uninstall node-audit-logs-middleware  --save`
+- `npm install git+https://github.ibm.com/hermanba/node-audit-logs-middleware#v0.0.3 --save`
 
 ## Pre-requisites
 - Your app must use express as the framework.
 
 ## To use
 ```
-npm install git+https://github.ibm.com/hermanba/node-audit-logs-middleware#v0.0.2 --save
+npm install git+https://github.ibm.com/hermanba/node-audit-logs-middleware#<latestTag> --save
 var auditLogMiddleware = require('node-audit-logs-middleware);
 // init express etc
 // add this middleware at the appropriate point (after auth but before the middleware that handles the important routes):
