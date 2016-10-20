@@ -43,6 +43,7 @@ function auditRequest(auditLogger) {
             res.end(chunk, encoding);
             res.responseTime = new Date() - start;
             var loggedMessage = getLogMessage(req, res);
+
             logger.debug(logPrefix + 'Audit log message: ', loggedMessage);
             logFn.call(auditLogger, loggedMessage);
         };
@@ -52,15 +53,37 @@ function auditRequest(auditLogger) {
     };
 };
 
+function getEventName(statusCode) {
+
+    if (!statusCode) {
+        return "Unknown";
+    }
+
+    if (statusCode >= 200 && statusCode < 300) {
+        return "Access Permitted";
+    }
+    else if (statusCode >=400 && statusCode < 500) {
+        return "Access Denied";
+    }
+    else {
+        return "Unknown";
+    }
+
+};
+
 /**
  * Return formatted log line.
  */
 function getLogMessage(req, res) {
+    var statusCode = res.__statusCode || res.statusCode;
+
+    var eventName = getEventName(statusCode);
+
     var result = {
         target: req.originalUrl,
         event_type: req.method,
         req_body: req.body,
-        response_code: res.__statusCode || res.statusCode,
+        response_code: statusCode,
         response_time: res.responseTime + ' ms',
         timestamp: new Date().getTime(),
         referrer: req.headers.referer || req.headers.referrer || '',
@@ -68,7 +91,8 @@ function getLogMessage(req, res) {
         user_agent: req.headers['user-agent'] || '',
         content_length:  (res._headers && res._headers['content-length']) || 
             (res.__headers && res.__headers['Content-Length']) || '-',
-        user: req.user && req.user.user_name
+        usrName: req.user && req.user.user_name,
+        event: eventName
 
     };
 
