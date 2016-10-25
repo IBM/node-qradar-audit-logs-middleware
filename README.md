@@ -1,3 +1,9 @@
+# IBM Bluemix DevOps Services - node-audit-logs-middleware
+
+For more information on IBM Bluemix DevOps Services, see the [Bluemix Public IDS Experiment](https://new-console.ng.bluemix.net/dashboard/devops).
+
+This is one of hundreds of [IBM Open Source projects at GitHub](http://ibm.github.io).
+
 # node-audit-logs-middleware
 Middleware to log all requests that pass through and aspects of the response.
 
@@ -19,8 +25,19 @@ app.use(auditLogMiddleware(log4js.getLogger('audit-logs'));
 
 
 ## For ideal use
-- Ensure that the fetch-auth middleware is used before this, and that it tacks on the TIAM userinfo object at req.user 
+- Ensure that the fetch-auth middleware is used before this, and that it tacks on the TIAM userinfo object at req.user
 
 ## Recommended logging library
 We use this library in conjunction with log4js, so using node-log4js is recommended.
 
+## License
+
+[The MIT License (MIT)](LICENSE.txt)
+
+## Contributing
+
+Contributions are welcome via Pull Requests. Please submit your very first Pull Request against the [Developer's Certificate of Origin](DCO.txt), adding a line like the following to the end of the file... using your name and email address of course!
+
+```
+Signed-off-by: John Doe <john.doe@example.org>
+```
