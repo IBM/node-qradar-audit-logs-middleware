@@ -7,8 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "IBM",
-  "private": true,
+  "license": "MIT",
+  "private": false,
   "dependencies": {
     "log4js": "^0.6.33"
   }
