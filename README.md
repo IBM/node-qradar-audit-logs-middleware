@@ -8,17 +8,17 @@ This is one of hundreds of [IBM Open Source projects at GitHub](http://ibm.githu
 Middleware to log all requests that pass through and aspects of the response.
 
 ## To upgrade / install
-- `npm i --save qradar-audit-logs-middleware@<version>`
+- `npm i --save qradar-audit-logs-middleware`
 
 ## Pre-requisites
 - Your app must use express as the framework.
 
 ## To use
 ```
-var auditLogMiddleware = require('qradar-audit-logs-middleware);
+var auditLogMiddleware = require('qradar-audit-logs-middleware');
 // init express etc
 // add this middleware at the appropriate point (after auth but before the middleware that handles the important routes):
-app.use(auditLogMiddleware(log4js.getLogger('audit-logs'));
+app.use(auditLogMiddleware(log4js.getLogger('audit-logs')));
 ```
 
 ## For ideal use
