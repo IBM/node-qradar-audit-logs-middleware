@@ -11,8 +11,12 @@
 var log4js = require('log4js');
 
 var logger = log4js.getLogger('audit-lib'),
-    logBasePath = 'index';
-    logger.setLevel('INFO');
+    logBasePath = 'index',
+    os = require('os');
+
+var hostIP;
+
+logger.setLevel('INFO');
 
 module.exports = auditRequest;
 
@@ -71,6 +75,22 @@ function getEventName(statusCode) {
 
 };
 
+function getHostIP() {
+    var interfaces = os.networkInterfaces();
+    var addresses = {};
+    Object.keys(interfaces).forEach(function(interfaceName) {
+        interfaces[interfaceName].forEach(function(itf) {
+            if (itf.internal || itf.family !== 'IPv4') {
+                return;
+            }
+            addresses[interfaceName] = itf.address; 
+        });
+    });
+    // get the IP from the first network interface we found that’s IPv4 and not internal
+    hostIP = addresses[Object.keys(addresses)[0]] || 'no external IPv4 network interface found';
+    return hostIP;
+}
+
 /**
  * Return formatted log line.
  */
@@ -92,7 +112,8 @@ function getLogMessage(req, res) {
         content_length:  (res._headers && res._headers['content-length']) || 
             (res.__headers && res.__headers['Content-Length']) || '-',
         usrName: req.user && req.user.user_name,
-        event: eventName
+        event: eventName,
+        dst: hostIP || getHostIP()
 
     };
 
