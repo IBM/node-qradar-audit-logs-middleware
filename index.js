@@ -99,24 +99,6 @@ function getLogMessage(req, res) {
 
     var eventName = getEventName(statusCode);
 
-    var result = {
-        target: req.originalUrl,
-        event_type: req.method,
-        req_body: req.body,
-        response_code: statusCode,
-        response_time: res.responseTime + ' ms',
-        timestamp: new Date().getTime(),
-        referrer: req.headers.referer || req.headers.referrer || '',
-        http_version: req.httpVersionMajor + '.' + req.httpVersionMinor,
-        user_agent: req.headers['user-agent'] || '',
-        content_length:  (res._headers && res._headers['content-length']) || 
-            (res.__headers && res.__headers['Content-Length']) || '-',
-        usrName: req.user && req.user.user_name,
-        event: eventName,
-        dst: hostIP || getHostIP()
-
-    };
-
     var source;
     if (req.get('X-Client-IP')) {
         source = req.get('X-Client-IP').split(',')[0];
@@ -127,6 +109,23 @@ function getLogMessage(req, res) {
             (req.socket.remoteAddress || (req.socket.socket && req.socket.socket.remoteAddress));
     }
 
-    result.source = source;
+    var result = {
+        event: eventName,
+        oper: req.method,
+        res: req.originalUrl,
+        usrName: req.user && req.user.user_name,
+        dst: hostIP || getHostIP(),
+        src: source,
+        response_code: statusCode,
+        response_time: res.responseTime + ' ms',
+        timestamp: new Date().getTime(),
+        referrer: req.headers.referer || req.headers.referrer || '',
+        http_version: req.httpVersionMajor + '.' + req.httpVersionMinor,
+        user_agent: req.headers['user-agent'] || '',
+        content_length:  (res._headers && res._headers['content-length']) || 
+            (res.__headers && res.__headers['Content-Length']) || '-',
+        req_body: req.body
+    };
+
     return JSON.stringify(result);
 };
