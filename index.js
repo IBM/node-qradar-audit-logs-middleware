@@ -12,9 +12,7 @@ var log4js = require('log4js');
 
 var logger = log4js.getLogger('audit-lib'),
     logBasePath = 'index',
-    os = require('os');
-
-var hostIP;
+    utilFunctions = require('./utils/functions');
 
 logger.setLevel('INFO');
 
@@ -57,47 +55,13 @@ function auditRequest(auditLogger) {
     };
 };
 
-function getEventName(statusCode) {
-
-    if (!statusCode) {
-        return "Unknown";
-    }
-
-    if (statusCode >= 200 && statusCode < 300) {
-        return "Access Permitted";
-    }
-    else if (statusCode >=400 && statusCode < 500) {
-        return "Access Denied";
-    }
-    else {
-        return "Unknown";
-    }
-
-};
-
-function getHostIP() {
-    var interfaces = os.networkInterfaces();
-    var addresses = {};
-    Object.keys(interfaces).forEach(function(interfaceName) {
-        interfaces[interfaceName].forEach(function(itf) {
-            if (itf.internal || itf.family !== 'IPv4') {
-                return;
-            }
-            addresses[interfaceName] = itf.address; 
-        });
-    });
-    // get the IP from the first network interface we found that’s IPv4 and not internal
-    hostIP = addresses[Object.keys(addresses)[0]] || 'no external IPv4 network interface found';
-    return hostIP;
-}
-
 /**
  * Return formatted log line.
  */
 function getLogMessage(req, res) {
     var statusCode = res.__statusCode || res.statusCode;
 
-    var eventName = getEventName(statusCode);
+    var eventName = utilFunctions.getEventName(statusCode);
 
     var source;
     if (req.get('X-Client-IP')) {
@@ -109,23 +73,30 @@ function getLogMessage(req, res) {
             (req.socket.remoteAddress || (req.socket.socket && req.socket.socket.remoteAddress));
     }
 
+    var limit = 3900; 
+    if (process.env.log4js_syslog_appender_useUdpSyslog === 'true') {
+        limit = 850;
+    }
+
     var result = {
         event: eventName,
         oper: req.method,
         res: req.originalUrl,
         usrName: req.user && req.user.user_name,
-        dst: hostIP || getHostIP(),
+        dst: utilFunctions.getHostIP(),
         src: source,
         response_code: statusCode,
         response_time: res.responseTime + ' ms',
-        timestamp: new Date().getTime(),
+        timestamp: '' + new Date().getTime(),
         referrer: req.headers.referer || req.headers.referrer || '',
         http_version: req.httpVersionMajor + '.' + req.httpVersionMinor,
         user_agent: req.headers['user-agent'] || '',
-        content_length:  (res._headers && res._headers['content-length']) || 
-            (res.__headers && res.__headers['Content-Length']) || '-',
+        content_length:  '' + ((res._headers && res._headers['content-length']) || 
+            (res.__headers && res.__headers['Content-Length']) || '-'),
         req_body: req.body
     };
+
+    result = utilFunctions.fixLength(result, limit);
 
     return JSON.stringify(result);
 };

@@ -4,12 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run test:unit",
+    "test:unit": "bash -c '(chmod u+x scripts/runUnitTests.sh; scripts/runUnitTests.sh)'"
   },
   "author": "",
   "license": "MIT",
   "private": false,
   "dependencies": {
     "log4js": "^0.6.33"
+  },
+  "devDependencies": {
+    "tap-spec": "^4.1.1",
+    "tape": "^4.6.3"
   }
 }
