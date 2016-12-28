@@ -59,8 +59,7 @@ function getHostIP() {
         });
     });
     // get the IP from the first network interface we found that’s IPv4 and not internal
-    hostIP = addresses[Object.keys(addresses)[0]] || 'no external IPv4 network interface found';
-    return hostIP;
+    return addresses[Object.keys(addresses)[0]] || 'no external IPv4 network interface found';
 };
 
 function getEventName(statusCode) {
