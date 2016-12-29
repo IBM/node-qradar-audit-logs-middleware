@@ -24,27 +24,29 @@ function fixLength(result, limit) {
     var resultLengths = [];
 
     for (var key in result) {
-        // each param will have its key, value, a space char, a colon and 
+        // each param will have its key, value, a colon and 
         // comma separating values in the output log message.
-        var keyObjectLength = JSON.stringify(key).length + JSON.stringify(result[key]).length + 3;
-        var keyObject = {
-            'key': key,
-            'keyObjectLength': keyObjectLength
+        if (result[key] !== undefined) {
+            var keyObjectLength = JSON.stringify(key).length +
+                JSON.stringify(result[key]).length + 2;
+            var keyObject = {
+                'key': key,
+                'keyObjectLength': keyObjectLength
+            };
+            resultLengths.push(keyObject);
         }
-        resultLengths.push(keyObject);
     }
 
     resultLengths.sort(increasingLengthComparator);
 
     var currentTotalLength = JSON.stringify(result).length;
 
-    while (currentTotalLength > limit) {
+    while (currentTotalLength > limit && resultLengths.length > 0) {
         var greatestKeyObject = resultLengths.pop();
         delete result[greatestKeyObject.key];
         currentTotalLength = JSON.stringify(result).length;
     }
-
-    return result
+    return result;
 };
 
 function getHostIP() {
