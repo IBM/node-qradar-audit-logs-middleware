@@ -6,7 +6,7 @@
  * Use, duplication or disclosure restricted by GSA ADP Schedule
  * Contract with IBM Corp.
  */
- 'use strict';
+'use strict';
 
 var test = require('tape'),
     utilFunctions = require('../../utils/functions');
@@ -50,11 +50,12 @@ test('Result length over length limit by two keys', function(t) {
 test('Test result with undefined value', function(t) {
 
     var result = {usrName: undefined};
-    var newResult = {usrName: undefined}; // deep copy of above while
+    // deep copy of above while
     // maintaining undefined value note that by stringifying or parsing, 
     // undefineds are filtered out.
+    var newResult = {usrName: undefined};
 
-    var newResult = utilFunctions.fixLength(newResult, 300);
+    newResult = utilFunctions.fixLength(newResult, 300);
 
     t.equal(JSON.stringify(newResult), JSON.stringify(result), 
         'is the json object with an undefined value and with length under the limit unchanged?');
