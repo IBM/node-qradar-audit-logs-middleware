@@ -67,7 +67,6 @@ test('Test result with null value', function(t) {
 
     var newResult = utilFunctions.fixLength(JSON.parse(JSON.stringify(result)), 300);
 
-    console.log('result: ' + JSON.stringify(newResult));
     t.equal(JSON.stringify(newResult), JSON.stringify(result), 
         'is the json object with an undefined value and with length under the limit unchanged?');
     t.end();
@@ -84,7 +83,7 @@ test('Test empty result with 0 limit', function(t) {
     t.end();
 });
 
-test('Test result with 1 key with 0 limit', function(t) {
+test('Test result with 1 key and 0 limit', function(t) {
 
     var result = {'hey': 'hi'};
 
