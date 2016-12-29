@@ -16,36 +16,40 @@ module.exports = {
     getEventName: getEventName
 };
 
-function increasingLengthComparator(a, b) {
-    return a.keyObjectLength - b.keyObjectLength;
-};
+function increasingLengthComparator(firstObject, secondObject) {
+    return firstObject.keyObjectLength - secondObject.keyObjectLength;
+}
 
 function fixLength(result, limit) {
     var resultLengths = [];
 
     for (var key in result) {
-        // each param will have its key, value, a space char, a colon and 
-        // comma separating values in the output log message.
-        var keyObjectLength = JSON.stringify(key).length + JSON.stringify(result[key]).length + 3;
-        var keyObject = {
-            'key': key,
-            'keyObjectLength': keyObjectLength
+        
+        if (typeof result[key] !== 'undefined') {
+            // each param will have its key, value, a colon and 
+            // comma separating values in the output log message.
+            var EXTRA_CHARS_PER_KEY_VALUE_PAIR = 2;
+            var keyObjectLength = JSON.stringify(key).length +
+                JSON.stringify(result[key]).length + EXTRA_CHARS_PER_KEY_VALUE_PAIR;
+            var keyObject = {
+                'key': key,
+                'keyObjectLength': keyObjectLength
+            };
+            resultLengths.push(keyObject);
         }
-        resultLengths.push(keyObject);
     }
 
     resultLengths.sort(increasingLengthComparator);
 
     var currentTotalLength = JSON.stringify(result).length;
 
-    while (currentTotalLength > limit) {
+    while (currentTotalLength > limit && resultLengths.length) {
         var greatestKeyObject = resultLengths.pop();
         delete result[greatestKeyObject.key];
         currentTotalLength = JSON.stringify(result).length;
     }
-
-    return result
-};
+    return result;
+}
 
 function getHostIP() {
     var interfaces = os.networkInterfaces();
@@ -60,22 +64,25 @@ function getHostIP() {
     });
     // get the IP from the first network interface we found that’s IPv4 and not internal
     return addresses[Object.keys(addresses)[0]] || 'no external IPv4 network interface found';
-};
+}
 
 function getEventName(statusCode) {
 
+    var PERMITTED_STATUS_CODE_RANGE_START = 200;
+    var PERMITTED_STATUS_CODE_RANGE_END = 300;
+    var DENIED_STATUS_CODE_RANGE_START = 400;
+    var DENIED_STATUS_CODE_RANGE_END = 500;
+
     if (!statusCode) {
-        return "Unknown";
+        return 'Unknown';
     }
 
-    if (statusCode >= 200 && statusCode < 300) {
-        return "Access Permitted";
-    }
-    else if (statusCode >=400 && statusCode < 500) {
-        return "Access Denied";
-    }
-    else {
-        return "Unknown";
+    if (statusCode >= PERMITTED_STATUS_CODE_RANGE_START && statusCode < PERMITTED_STATUS_CODE_RANGE_END) {
+        return 'Access Permitted';
+    } else if (statusCode >= DENIED_STATUS_CODE_RANGE_START && statusCode < DENIED_STATUS_CODE_RANGE_END) {
+        return 'Access Denied';
+    } else {
+        return 'Unknown';
     }
 
-};
+}

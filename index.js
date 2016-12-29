@@ -53,7 +53,7 @@ function auditRequest(auditLogger) {
         logger.debug(logPrefix + 'Moving on to next middleware');
         next();
     };
-};
+}
 
 /**
  * Return formatted log line.
@@ -73,9 +73,12 @@ function getLogMessage(req, res) {
             (req.socket.remoteAddress || (req.socket.socket && req.socket.socket.remoteAddress));
     }
 
-    var limit = 3900; 
+    // see https://github.com/IBM/node-qradar-audit-logs-middleware/issues/5
+    var TCP_LIMIT_LENGTH = 3900;
+    var UDP_LIMIT_LENGTH = 850;
+    var limit = TCP_LIMIT_LENGTH; 
     if (process.env.log4js_syslog_appender_useUdpSyslog === 'true') {
-        limit = 850;
+        limit = UDP_LIMIT_LENGTH;
     }
 
     var result = {
@@ -99,4 +102,4 @@ function getLogMessage(req, res) {
     result = utilFunctions.fixLength(result, limit);
 
     return JSON.stringify(result);
-};
+}
