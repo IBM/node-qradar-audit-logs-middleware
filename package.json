@@ -1,6 +1,6 @@
 {
   "name": "qradar-audit-logs-middleware",
-  "version": "0.1.2",
+  "version": "1.0.0",
   "description": "For more information on IBM Bluemix DevOps Services, see the [Bluemix Public IDS Experiment](https://new-console.ng.bluemix.net/dashboard/devops).",
   "main": "index.js",
   "scripts": {
@@ -12,7 +12,7 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
-    "log4js": "^0.6.33"
+    "log4js": "3"
   },
   "devDependencies": {
     "eslint": "^3.12.2",
