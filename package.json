@@ -1,6 +1,6 @@
 {
   "name": "qradar-audit-logs-middleware",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "Middleware to log all requests that pass through and aspects of the response",
   "main": "index.js",
   "scripts": {
