@@ -1,6 +1,6 @@
 {
   "name": "qradar-audit-logs-middleware",
-  "version": "2.2.0",
+  "version": "3.0.0",
   "description": "Middleware to log all requests that pass through and aspects of the response",
   "main": "index.js",
   "scripts": {
@@ -12,12 +12,12 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
-    "log4js": "^5.0.0"
+    "log4js": "^6.4.0"
   },
   "devDependencies": {
-    "eslint": "^6.0.1",
+    "eslint": "^7.24.0",
     "tap-spec": "^5.0.0",
-    "tape": "^4.11.0"
+    "tape": "^4.13.3"
   },
   "directories": {
     "test": "tests"
