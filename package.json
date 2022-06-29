@@ -1,23 +1,23 @@
 {
   "name": "qradar-audit-logs-middleware",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Middleware to log all requests that pass through and aspects of the response",
   "main": "index.js",
   "scripts": {
     "test": "npm run test:lint && npm run test:unit",
     "test:lint": "node node_modules/eslint/bin/eslint .",
-    "test:unit": "bash -c '(chmod u+x scripts/runUnitTests.sh; scripts/runUnitTests.sh)'"
+    "test:unit": "tape tests/**/*.js | tap-arc"
   },
   "author": "Herman Singh Badwal (ssjherman@gmail.com)",
   "license": "MIT",
   "private": false,
   "dependencies": {
-    "log4js": "^6.4.0"
+    "log4js": "^6.5.2"
   },
   "devDependencies": {
-    "eslint": "^7.24.0",
-    "tap-spec": "^5.0.0",
-    "tape": "^4.13.3"
+    "eslint": "^8.18.0",
+    "tap-arc": "^0.3.4",
+    "tape": "^5.5.3"
   },
   "directories": {
     "test": "tests"
