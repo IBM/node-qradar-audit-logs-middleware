@@ -12,12 +12,12 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
-    "log4js": "^6.4.0"
+    "log4js": "^6.5.2"
   },
   "devDependencies": {
-    "eslint": "^7.24.0",
+    "eslint": "^8.18.0",
     "tap-spec": "^5.0.0",
-    "tape": "^4.13.3"
+    "tape": "^5.5.3"
   },
   "directories": {
     "test": "tests"
